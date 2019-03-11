@@ -32,8 +32,13 @@ public class ttcn3 {
 		//针对ttcn3module规则开始语法分析
 		Ttcn3moduleContext tree = parser.ttcn3module();
 //		System.out.println(input);
-		System.out.println(tree.toStringTree(parser));
-		System.out.println(tree.getText());
+//		System.out.println(tree.toStringTree(parser));
+//		System.out.println(tree.getText());
+		
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(new moduleTranslation(), tree);
+		System.out.println();
+		
 	}
 
 }
