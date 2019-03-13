@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import ttcn3.t3parserParser.RunsOnSpecContext;
 import ttcn3.t3parserParser.SingleVarInstanceContext;
 
 /**
@@ -1465,7 +1466,17 @@ public class t3parserBaseListener implements t3parserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAltstepDef(t3parserParser.AltstepDefContext ctx) { }
+	@Override public void enterAltstepDef(t3parserParser.AltstepDefContext ctx) { 
+		System.out.print("\nfunc ");
+		System.out.print(ctx.IDENTIFIER().getText());
+		System.out.print(ctx.LEFT_PARENT().getText());
+		RunsOnSpecContext r = ctx.runsOnSpec();
+		System.out.print(r.componentType().getText());
+		System.out.print(ctx.RIGHT_PARENT().getText());
+		System.out.print(ctx.LEFT_BRACE().getText()+"\n");
+		System.out.print("switch "+ r.componentType().getText());
+		
+	}
 	/**
 	 * {@inheritDoc}
 	 *

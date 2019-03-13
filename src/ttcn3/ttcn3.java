@@ -36,8 +36,8 @@ public class ttcn3 {
 //		System.out.println(tree.getText());
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
-		walker.walk(new componentTranslation(), tree);
-//		walker.walk(new t3parserBaseListener(), tree);
+//		walker.walk(new componentTranslation(), tree);
+		walker.walk(new t3parserBaseListener(), tree);
 		System.out.println();
 		
 	}
