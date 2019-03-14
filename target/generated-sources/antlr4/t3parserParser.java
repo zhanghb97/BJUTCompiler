@@ -55,7 +55,7 @@ public class t3parserParser extends Parser {
 		ESC_LEFT_PARENT=222, ESC_RIGHT_PARENT=223, ESC_SHARP=224, ESC_ADD=225, 
 		ESC_D=226, ESC_W=227, ESC_T=228, ESC_n=229, ESC_R=230, ESC_S=231, ESC_B=232, 
 		ESC_N=233, ESC_QUADRUPLE=234, ESC_LINK=235, ESC_NOT=236, ESC_F=237, CSTRING=238, 
-		Char=239, WS=240, IDENTIFIER=241, FreeText=242;
+		Char=239, WS=240, IDENTIFIER=241;
 	public static final int
 		RULE_ttcn3module = 0, RULE_moduleId = 1, RULE_languageSpec = 2, RULE_moduleDefinitionsList = 3, 
 		RULE_moduleDefinition = 4, RULE_commonDef = 5, RULE_visibility = 6, RULE_typeDef = 7, 
@@ -305,7 +305,7 @@ public class t3parserParser extends Parser {
 		"ESC_LEFT_BRACKET", "ESC_RIGHT_BRACKET", "ESC_QUAT", "ESC_OR", "ESC_LEFT_PARENT", 
 		"ESC_RIGHT_PARENT", "ESC_SHARP", "ESC_ADD", "ESC_D", "ESC_W", "ESC_T", 
 		"ESC_n", "ESC_R", "ESC_S", "ESC_B", "ESC_N", "ESC_QUADRUPLE", "ESC_LINK", 
-		"ESC_NOT", "ESC_F", "CSTRING", "Char", "WS", "IDENTIFIER", "FreeText"
+		"ESC_NOT", "ESC_F", "CSTRING", "Char", "WS", "IDENTIFIER"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -508,9 +508,11 @@ public class t3parserParser extends Parser {
 
 	public static class LanguageSpecContext extends ParserRuleContext {
 		public TerminalNode LANGUAGE() { return getToken(t3parserParser.LANGUAGE, 0); }
-		public List<TerminalNode> FreeText() { return getTokens(t3parserParser.FreeText); }
-		public TerminalNode FreeText(int i) {
-			return getToken(t3parserParser.FreeText, i);
+		public List<FreeTextContext> freeText() {
+			return getRuleContexts(FreeTextContext.class);
+		}
+		public FreeTextContext freeText(int i) {
+			return getRuleContext(FreeTextContext.class,i);
 		}
 		public List<TerminalNode> COMMA() { return getTokens(t3parserParser.COMMA); }
 		public TerminalNode COMMA(int i) {
@@ -540,7 +542,7 @@ public class t3parserParser extends Parser {
 			setState(646);
 			match(LANGUAGE);
 			setState(647);
-			match(FreeText);
+			freeText();
 			setState(652);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -550,7 +552,7 @@ public class t3parserParser extends Parser {
 				setState(648);
 				match(COMMA);
 				setState(649);
-				match(FreeText);
+				freeText();
 				}
 				}
 				setState(654);
@@ -24258,7 +24260,7 @@ public class t3parserParser extends Parser {
 
 	private static final int _serializedATNSegments = 2;
 	private static final String _serializedATNSegment0 =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\u00f4\u0e31\4\2\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\u00f3\u0e31\4\2\t"+
 		"\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -24745,11 +24747,11 @@ public class t3parserParser extends Parser {
 		"\u0280\u0282\3\2\2\2\u0281\u0283\7\u00ad\2\2\u0282\u0281\3\2\2\2\u0282"+
 		"\u0283\3\2\2\2\u0283\3\3\2\2\2\u0284\u0286\7\u00f3\2\2\u0285\u0287\5\6"+
 		"\4\2\u0286\u0285\3\2\2\2\u0286\u0287\3\2\2\2\u0287\5\3\2\2\2\u0288\u0289"+
-		"\7M\2\2\u0289\u028e\7\u00f4\2\2\u028a\u028b\7\u00ba\2\2\u028b\u028d\7"+
-		"\u00f4\2\2\u028c\u028a\3\2\2\2\u028d\u0290\3\2\2\2\u028e\u028c\3\2\2\2"+
-		"\u028e\u028f\3\2\2\2\u028f\7\3\2\2\2\u0290\u028e\3\2\2\2\u0291\u0293\5"+
-		"\n\6\2\u0292\u0294\7\u00ad\2\2\u0293\u0292\3\2\2\2\u0293\u0294\3\2\2\2"+
-		"\u0294\u0296\3\2\2\2\u0295\u0291\3\2\2\2\u0296\u0297\3\2\2\2\u0297\u0295"+
+		"\7M\2\2\u0289\u028e\5\u026c\u0137\2\u028a\u028b\7\u00ba\2\2\u028b\u028d"+
+		"\5\u026c\u0137\2\u028c\u028a\3\2\2\2\u028d\u0290\3\2\2\2\u028e\u028c\3"+
+		"\2\2\2\u028e\u028f\3\2\2\2\u028f\7\3\2\2\2\u0290\u028e\3\2\2\2\u0291\u0293"+
+		"\5\n\6\2\u0292\u0294\7\u00ad\2\2\u0293\u0292\3\2\2\2\u0293\u0294\3\2\2"+
+		"\2\u0294\u0296\3\2\2\2\u0295\u0291\3\2\2\2\u0296\u0297\3\2\2\2\u0297\u0295"+
 		"\3\2\2\2\u0297\u0298\3\2\2\2\u0298\t\3\2\2\2\u0299\u029b\5\16\b\2\u029a"+
 		"\u0299\3\2\2\2\u029a\u029b\3\2\2\2\u029b\u029c\3\2\2\2\u029c\u029e\5\f"+
 		"\7\2\u029d\u029f\5\u01d0\u00e9\2\u029e\u029d\3\2\2\2\u029e\u029f\3\2\2"+

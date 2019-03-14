@@ -20,9 +20,9 @@ moduleId
 	: IDENTIFIER languageSpec?
 	;
 
-// 3 
+// 3 FreeText to freetext by zhb
 languageSpec
-	: LANGUAGE FreeText (COMMA FreeText)*
+	: LANGUAGE freeText (COMMA freeText)*
 	;
 
 // 4 module definitions
