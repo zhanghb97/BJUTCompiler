@@ -13,6 +13,14 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import ttcn3.t3parserParser.Ttcn3moduleContext;
 
 public class ttcn3 {
+	public static Symbol.Type getType(int tokenType) {
+        switch ( tokenType ) {
+        	//根据识别出来的类型，返回符号表中的类型
+            case t3parserParser.INTEGER :  return Symbol.Type.tINT; 
+            
+        }
+        return Symbol.Type.tINVALID;
+    }
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
