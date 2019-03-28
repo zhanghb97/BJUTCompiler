@@ -12,9 +12,8 @@ public class DefPhase extends t3parserBaseListener {
     Scope currentScope; // define symbols in this scope
     
     void saveScope(ParserRuleContext ctx, Scope s) { scopes.put(ctx, s); }
-    void defineVar(t3parserParser.TypeContext typeCtx, Token nameToken) {
-        int typeTokenType = typeCtx.start.getType();
-        Symbol.Type type = ttcn3.getType(typeTokenType);
+    void defineVar(String typeCtx, Token nameToken) {
+        Symbol.Type type = ttcn3.getType(typeCtx);
         VariableSymbol var = new VariableSymbol(nameToken.getText(), type);
         currentScope.define(var); // Define symbol in current scope
     }
@@ -28,11 +27,12 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterFunctionDef(t3parserParser.FunctionDefContext ctx) {
     	String name = ctx.IDENTIFIER().getText();
-    	int typeTokenType = ctx.returnType().start.getType();
-    	Symbol.Type type = ttcn3.getType(typeTokenType);
+//    	int typeTokenType = ctx.returnType().start.getType();
+//    	Symbol.Type type = ttcn3.getType(typeTokenType);
     	
     	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
-    	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
+    	FunctionSymbol function = new FunctionSymbol(name, currentScope);
+//    	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
     	currentScope.define(function);
     	saveScope(ctx, function);
     	currentScope = function;
@@ -42,7 +42,17 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterVarInstance(t3parserParser.VarInstanceContext ctx) { 
     	SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
-    	defineVar(ctx.type(), s.IDENTIFIER().getSymbol());
+    	defineVar(ctx.type().getText(), s.IDENTIFIER().getSymbol());
+    }
+    
+    @Override 
+    public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
+    	defineVar(ctx.TIMER().getText(), ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
+	}
+    
+    @Override 
+    public void enterVarList(t3parserParser.VarListContext ctx) { 
+
     }
     
     @Override

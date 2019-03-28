@@ -104,7 +104,7 @@ public class t3parserBaseListener implements t3parserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterTypeDef(t3parserParser.TypeDefContext ctx) { 
-		System.out.print(ctx.TYPE().getText()+" ");
+//		System.out.print(ctx.TYPE().getText()+" ");
 	}
 	/**
 	 * {@inheritDoc}
@@ -646,8 +646,8 @@ public class t3parserBaseListener implements t3parserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterComponentDef(t3parserParser.ComponentDefContext ctx) { 
-		System.out.print(ctx.COMPONENT().getText()+" struct");
-		System.out.print(ctx.LEFT_BRACE().getText()+"\n");
+//		System.out.print(ctx.COMPONENT().getText()+" struct");
+//		System.out.print(ctx.LEFT_BRACE().getText()+"\n");
 	}
 	/**
 	 * {@inheritDoc}
@@ -655,7 +655,7 @@ public class t3parserBaseListener implements t3parserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComponentDef(t3parserParser.ComponentDefContext ctx) { 
-		System.out.print(ctx.RIGHT_BRACE().getText());
+//		System.out.print(ctx.RIGHT_BRACE().getText());
 	}
 	/**
 	 * {@inheritDoc}
@@ -1467,14 +1467,14 @@ public class t3parserBaseListener implements t3parserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterAltstepDef(t3parserParser.AltstepDefContext ctx) { 
-		System.out.print("\nfunc ");
-		System.out.print(ctx.IDENTIFIER().getText());
-		System.out.print(ctx.LEFT_PARENT().getText());
-		RunsOnSpecContext r = ctx.runsOnSpec();
-		System.out.print(r.componentType().getText());
-		System.out.print(ctx.RIGHT_PARENT().getText());
-		System.out.print(ctx.LEFT_BRACE().getText()+"\n");
-		System.out.print("switch "+ r.componentType().getText());
+//		System.out.print("\nfunc ");
+//		System.out.print(ctx.IDENTIFIER().getText());
+//		System.out.print(ctx.LEFT_PARENT().getText());
+//		RunsOnSpecContext r = ctx.runsOnSpec();
+//		System.out.print(r.componentType().getText());
+//		System.out.print(ctx.RIGHT_PARENT().getText());
+//		System.out.print(ctx.LEFT_BRACE().getText()+"\n");
+//		System.out.print("switch "+ r.componentType().getText());
 		
 	}
 	/**
@@ -1849,8 +1849,8 @@ public class t3parserBaseListener implements t3parserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
-		SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
-		System.out.print(s.IDENTIFIER().getText() + " " + ctx.TIMER().getText() + "\n");
+//		SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
+//		System.out.print(s.IDENTIFIER().getText() + " " + ctx.TIMER().getText() + "\n");
 	}
 	/**
 	 * {@inheritDoc}

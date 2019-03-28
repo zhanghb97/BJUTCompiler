@@ -1,7 +1,7 @@
 package ttcn3;
 
 public class Symbol {
-	public static enum Type {tINVALID, tVOID, tINT, tFLOAT}
+	public static enum Type {tINVALID, tVOID, tINT, tFLOAT, tTimer}
 
     String name;      // All symbols at least have a name
     Type type;

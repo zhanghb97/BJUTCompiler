@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 //import antlrTest.t3parserLexer;
@@ -13,13 +14,19 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import ttcn3.t3parserParser.Ttcn3moduleContext;
 
 public class ttcn3 {
-	public static Symbol.Type getType(int tokenType) {
+	public static Symbol.Type getType(String tokenType) {
         switch ( tokenType ) {
         	//根据识别出来的类型，返回符号表中的类型
-            case t3parserParser.INTEGER :  return Symbol.Type.tINT; 
+            case "timer" :  
+            	System.out.println("timer!!!!!!!!!");
+            	return Symbol.Type.tTimer; 
             
         }
         return Symbol.Type.tINVALID;
+    }
+	
+	public static void error(Token t, String msg) {
+        System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(), msg);
     }
 
 	public static void main(String[] args) throws IOException {
@@ -44,8 +51,10 @@ public class ttcn3 {
 //		System.out.println(tree.getText());
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
-//		walker.walk(new componentTranslation(), tree);
-		walker.walk(new t3parserBaseListener(), tree);
+		DefPhase def = new DefPhase();
+		walker.walk(def, tree);
+		walker.walk(new RefPhase(def.globals, def.scopes), tree);
+//		walker.walk(new t3parserBaseListener(), tree);
 		System.out.println();
 		
 	}
