@@ -20,6 +20,9 @@ public class ttcn3 {
             case "timer" :  
             	System.out.println("timer!!!!!!!!!");
             	return Symbol.Type.tTimer; 
+            case "integer" :
+            	System.out.println("integer!!!!!!!!");
+            	return Symbol.Type.tINT;
             
         }
         return Symbol.Type.tINVALID;

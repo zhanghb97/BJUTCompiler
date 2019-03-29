@@ -42,7 +42,7 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterVarInstance(t3parserParser.VarInstanceContext ctx) { 
     	SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
-    	defineVar(ctx.type().getText(), s.IDENTIFIER().getSymbol());
+    	defineVar(ctx.type().predefinedType().getText(), s.IDENTIFIER().getSymbol());
     }
     
     @Override 

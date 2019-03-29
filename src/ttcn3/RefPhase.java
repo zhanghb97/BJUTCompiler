@@ -33,6 +33,7 @@ public class RefPhase extends t3parserBaseListener {
     	String funcName = ctx.IDENTIFIER().toString();
     	Symbol meth = currentScope.resolve(funcName);
     	if ( meth==null ) {
+    		System.out.println("no such variable: "+funcName);
             ttcn3.error((Token)ctx.IDENTIFIER(), "no such function: "+funcName);
         }
         if ( meth instanceof VariableSymbol ) {
