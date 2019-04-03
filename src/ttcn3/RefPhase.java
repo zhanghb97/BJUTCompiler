@@ -30,8 +30,9 @@ public class RefPhase extends t3parserBaseListener {
     
     @Override 
     public void enterFunctionInstance(t3parserParser.FunctionInstanceContext ctx) { 
-    	String funcName = ctx.IDENTIFIER().toString();
+    	String funcName = ctx.IDENTIFIER().get(0).getText();
     	Symbol meth = currentScope.resolve(funcName);
+    	System.out.println("scope111: " + meth);
     	if ( meth==null ) {
     		System.out.println("no such variable: "+funcName);
             ttcn3.error((Token)ctx.IDENTIFIER(), "no such function: "+funcName);
@@ -45,6 +46,21 @@ public class RefPhase extends t3parserBaseListener {
     public void enterVariableRef(t3parserParser.VariableRefContext ctx) {
     	String name = ctx.IDENTIFIER().getText();
     	Symbol var = currentScope.resolve(name);
+    	System.out.println("name:"+name+"  var:"+var);
+    	if ( var==null ) {
+            System.out.println("no such variable: "+name);
+    		ttcn3.error((Token)ctx.IDENTIFIER(), "no such variable: "+name);
+        }
+        if ( var instanceof FunctionSymbol ) {
+        	ttcn3.error((Token)ctx.IDENTIFIER(), name+" is not a variable");
+        }
+    }
+    
+    @Override 
+    public void enterExtendedIdentifier(t3parserParser.ExtendedIdentifierContext ctx) { 
+    	String name = ctx.IDENTIFIER().get(0).getText();
+    	Symbol var = currentScope.resolve(name);
+    	System.out.println("name:"+name+"  var:"+var);
     	if ( var==null ) {
             System.out.println("no such variable: "+name);
     		ttcn3.error((Token)ctx.IDENTIFIER(), "no such variable: "+name);

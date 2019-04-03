@@ -20,6 +20,7 @@ public abstract class BaseScope implements Scope {
     public void define(Symbol sym) {
         symbols.put(sym.name, sym);
         sym.scope = this; // track the scope in each symbol
+        System.out.println("defining:"+sym.name+"   Symbol:"+sym);
     }
 
     public Scope getEnclosingScope() { return enclosingScope; }

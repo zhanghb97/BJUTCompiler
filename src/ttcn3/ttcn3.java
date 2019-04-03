@@ -18,12 +18,11 @@ public class ttcn3 {
         switch ( tokenType ) {
         	//根据识别出来的类型，返回符号表中的类型
             case "timer" :  
-            	System.out.println("timer!!!!!!!!!");
-            	return Symbol.Type.tTimer; 
+            	return Symbol.Type.tTIMER; 
             case "integer" :
-            	System.out.println("integer!!!!!!!!");
             	return Symbol.Type.tINT;
-            
+            case "function" :
+            	return Symbol.Type.tFUNCTION;
         }
         return Symbol.Type.tINVALID;
     }

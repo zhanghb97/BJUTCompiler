@@ -16,6 +16,7 @@ public class DefPhase extends t3parserBaseListener {
         Symbol.Type type = ttcn3.getType(typeCtx);
         VariableSymbol var = new VariableSymbol(nameToken.getText(), type);
         currentScope.define(var); // Define symbol in current scope
+        System.out.println("currentScope:"+currentScope);
     }
     
     @Override
@@ -27,15 +28,19 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterFunctionDef(t3parserParser.FunctionDefContext ctx) {
     	String name = ctx.IDENTIFIER().getText();
-//    	int typeTokenType = ctx.returnType().start.getType();
-//    	Symbol.Type type = ttcn3.getType(typeTokenType);
+    	System.out.println("function name: " + name);
+    	String typeTokenType = ctx.FUNCTION().getText();
+    	System.out.println(typeTokenType);
+    	Symbol.Type type = ttcn3.getType(typeTokenType);
     	
     	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
-    	FunctionSymbol function = new FunctionSymbol(name, currentScope);
+    	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
 //    	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
+    	System.out.println("sym:"+function);
     	currentScope.define(function);
     	saveScope(ctx, function);
     	currentScope = function;
+    	
     	
     }
     
@@ -43,11 +48,16 @@ public class DefPhase extends t3parserBaseListener {
     public void enterVarInstance(t3parserParser.VarInstanceContext ctx) { 
     	SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
     	defineVar(ctx.type().predefinedType().getText(), s.IDENTIFIER().getSymbol());
+//    	System.out.println(s.IDENTIFIER().getSymbol());
+//    	System.out.println(currentScope.resolve(s.IDENTIFIER().toString()));
     }
     
     @Override 
     public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
+    	System.out.println(ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
     	defineVar(ctx.TIMER().getText(), ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
+//    	System.out.println("currentScope:"+currentScope);
+//    	System.out.println(currentScope.resolve(ctx.varList().singleVarInstance().get(0).IDENTIFIER().toString()));
 	}
     
     @Override 

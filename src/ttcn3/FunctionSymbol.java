@@ -12,8 +12,8 @@ public class FunctionSymbol extends Symbol implements Scope {
 //        this.enclosingScope = enclosingScope;
 //    }
     
-    public FunctionSymbol(String name, Scope enclosingScope) {
-        super(name);
+    public FunctionSymbol(String name, Type retType, Scope enclosingScope) {
+        super(name, retType);
         this.enclosingScope = enclosingScope;
     }
 
