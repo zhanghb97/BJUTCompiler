@@ -28,15 +28,11 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterFunctionDef(t3parserParser.FunctionDefContext ctx) {
     	String name = ctx.IDENTIFIER().getText();
-    	System.out.println("function name: " + name);
     	String typeTokenType = ctx.FUNCTION().getText();
-    	System.out.println(typeTokenType);
     	Symbol.Type type = ttcn3.getType(typeTokenType);
     	
     	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
     	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
-//    	FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
-    	System.out.println("sym:"+function);
     	currentScope.define(function);
     	saveScope(ctx, function);
     	currentScope = function;

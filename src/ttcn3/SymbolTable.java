@@ -5,8 +5,9 @@ public class SymbolTable {
 
     public SymbolTable() { initTypeSystem(); }
     protected void initTypeSystem() {
-        globals.define(new BuiltInTypeSymbol("int"));
+        globals.define(new BuiltInTypeSymbol("integer"));
         globals.define(new BuiltInTypeSymbol("float"));
+        globals.define(new BuiltInTypeSymbol("boolean"));
         globals.define(new BuiltInTypeSymbol("void")); // pseudo-type
     }
 

@@ -1,5 +1,5 @@
 package ttcn3;
 
-public interface Type {
+public interface TypeName {
 	public String getName();
 }
