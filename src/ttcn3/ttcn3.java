@@ -1,6 +1,8 @@
 package ttcn3;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -32,9 +34,11 @@ public class ttcn3 {
     }
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+		
+		InputStream f = new FileInputStream("/Users/zhanghongbin/Desktop/test001.txt");
+		
 		//新建一个CharStream，从标准输入读入数据
-		CharStream input = CharStreams.fromStream(System.in);
+		CharStream input = CharStreams.fromStream(f);
 		
 		//新建一个词法分析器,处理CharStream
 		t3parserLexer lexer = new t3parserLexer(input);
