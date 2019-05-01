@@ -23,10 +23,15 @@ public class ttcn3 {
             	return Symbol.Type.tTIMER; 
             case "integer" :
             	return Symbol.Type.tINT;
-            case "function" :
-            	return Symbol.Type.tFUNCTION;
+            case "float" :
+            	return Symbol.Type.tFLOAT;
+            case "boolean" : 
+            	return Symbol.Type.tBOOL;
+            case "charstring":
+            	return Symbol.Type.tSTRING;
+            default:
+            	return Symbol.Type.tUSER;
         }
-        return Symbol.Type.tINVALID;
     }
 	
 	public static void error(Token t, String msg) {
