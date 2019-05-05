@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import ttcn3.t3parserParser.FunctionFormalParContext;
+import ttcn3.t3parserParser.MessageAttribsContext;
 import ttcn3.t3parserParser.SingleConstDefContext;
 import ttcn3.t3parserParser.SingleVarInstanceContext;
 import ttcn3.t3parserParser.StructFieldDefContext;
@@ -30,6 +31,13 @@ public class DefPhase extends t3parserBaseListener {
         Symbol.Type type = ttcn3.getType(typeCtx);
         ConstSymbol constSymbol = new ConstSymbol(nameToken.getText(), type);
         currentScope.define(constSymbol); // Define symbol in current scope
+    }
+    
+    // 定义port
+    void definePort(String typeCtx, Token nameToken) {
+    	Symbol.Type type = ttcn3.getType(typeCtx);
+        PortSymbol portSymbol = new PortSymbol(nameToken.getText(), type);
+        currentScope.define(portSymbol); // Define symbol in current scope
     }
     
     //定义函数参数列表
@@ -122,6 +130,29 @@ public class DefPhase extends t3parserBaseListener {
     	SingleVarInstanceContext s = ctx.varList().singleVarInstance().get(0);
     	defineVar(ctx.type().predefinedType().getText(), s.IDENTIFIER().getSymbol());
     }
+    
+    // 进入port定义
+    @Override 
+    public void enterPortDef(t3parserParser.PortDefContext ctx) { 
+    	Token name = ctx.IDENTIFIER().getSymbol();
+    	String type = ctx.portDefAttribs().messageAttribs().messageList(0).allOrTypeList().typeList().type(0).predefinedType().getText();
+    	definePort(type, name);
+    }
+    
+    // 进入component定义
+    @Override public void enterComponentDef(t3parserParser.ComponentDefContext ctx) { 
+    	String name = ctx.IDENTIFIER().getText();
+    	ComponentSymbol componentSymbol = new ComponentSymbol(name, currentScope);
+    	currentScope.define(componentSymbol);
+    	saveScope(ctx, componentSymbol);
+    	currentScope = componentSymbol;
+    }
+    
+    @Override public void exitComponentDef(t3parserParser.ComponentDefContext ctx) { 
+    	currentScope = currentScope.getEnclosingScope(); //出栈
+    }
+    
+    
     
     @Override 
     public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
