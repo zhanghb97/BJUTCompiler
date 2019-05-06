@@ -33,11 +33,11 @@ public class DefPhase extends t3parserBaseListener {
         currentScope.define(constSymbol); // Define symbol in current scope
     }
     
-    // 定义port
-    void definePort(String typeCtx, Token nameToken) {
+    // 定义port instance
+    void definePortInst(String typeCtx, Token nameToken) {
     	Symbol.Type type = ttcn3.getType(typeCtx);
-        PortSymbol portSymbol = new PortSymbol(nameToken.getText(), type);
-        currentScope.define(portSymbol); // Define symbol in current scope
+        PortInstSymbol portInstSymbol = new PortInstSymbol(nameToken.getText(), type);
+        currentScope.define(portInstSymbol); // Define symbol in current scope
     }
     
     //定义函数参数列表
@@ -71,8 +71,17 @@ public class DefPhase extends t3parserBaseListener {
     // 进入函数定义
     @Override 
     public void enterFunctionDef(t3parserParser.FunctionDefContext ctx) {
+    	// 函数名
     	String name = ctx.IDENTIFIER().getText();
-    	String typeTokenType = ctx.returnType().type().predefinedType().getText();
+    	// 函数返回值
+    	String typeTokenType;
+    	if(ctx.children.contains(ctx.returnType())) {
+    		typeTokenType = ctx.returnType().type().predefinedType().getText();
+    	} 
+    	else {
+    		typeTokenType = "NULL";
+    	}
+    	
     	Symbol.Type type = ttcn3.getType(typeTokenType);
     	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
     	FunctionSymbol functionSymbol = new FunctionSymbol(name, type, currentScope);
@@ -88,11 +97,17 @@ public class DefPhase extends t3parserBaseListener {
     	List<FunctionFormalParContext> par = ctx.functionFormalPar();
     	//在函数作用域中分别定义参数
     	for(int i = 0; i < par.size(); i++) {
-    		String name = par.get(i).formalValuePar().IDENTIFIER().getText();
-    		String typeTokenType = par.get(i).formalValuePar().type().predefinedType().getText();
-    		Symbol.Type type = ttcn3.getType(typeTokenType);
-    		FuncArgsSymbol funcArgsSymbol = new FuncArgsSymbol(name, type);
-    		currentScope.define(funcArgsSymbol);
+    		// value参数
+    		if (par.get(i).children.contains(par.get(i).formalValuePar())) {
+    			String name = par.get(i).formalValuePar().IDENTIFIER().getText();
+        		String typeTokenType = par.get(i).formalValuePar().type().predefinedType().getText();
+        		Symbol.Type type = ttcn3.getType(typeTokenType);
+        		FuncArgsSymbol funcArgsSymbol = new FuncArgsSymbol(name, type);
+        		currentScope.define(funcArgsSymbol);
+    		}
+    		// timer参数
+    		
+    		
     	}
     }
     
@@ -100,7 +115,8 @@ public class DefPhase extends t3parserBaseListener {
     @Override 
     public void enterRecordDef(t3parserParser.RecordDefContext ctx) { 
     	String name = ctx.structDefBody().IDENTIFIER().getText();
-    	RecordSymbol recordSymbol = new RecordSymbol(name, currentScope);
+    	Symbol.Type type = Symbol.Type.tRECORD;
+    	RecordSymbol recordSymbol = new RecordSymbol(name, type, currentScope);
     	currentScope.define(recordSymbol);
     	saveScope(ctx, recordSymbol);
     	currentScope = recordSymbol;
@@ -134,15 +150,32 @@ public class DefPhase extends t3parserBaseListener {
     // 进入port定义
     @Override 
     public void enterPortDef(t3parserParser.PortDefContext ctx) { 
-    	Token name = ctx.IDENTIFIER().getSymbol();
-    	String type = ctx.portDefAttribs().messageAttribs().messageList(0).allOrTypeList().typeList().type(0).predefinedType().getText();
-    	definePort(type, name);
+    	String name = ctx.IDENTIFIER().getText();
+    	String typeTokenType = "port";
+    	Symbol.Type type = ttcn3.getType(typeTokenType);
+    	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
+    	PortSymbol portSymbol = new PortSymbol(name, type, currentScope);
+    	currentScope.define(portSymbol);
+    	saveScope(ctx, portSymbol);
+    	currentScope = portSymbol;
+    }
+    
+    // 进入port引用
+    @Override
+    public void enterPortInstance(t3parserParser.PortInstanceContext ctx) { 
+    	String portType = ctx.IDENTIFIER().get(0).getText();
+    	Symbol portSymbol = currentScope.resolve(portType);
+    	if ( portSymbol == null ) {
+    		System.out.println("no such port type: "+portType);
+        }
+    	definePortInst("port", ctx.portElement().get(0).IDENTIFIER().getSymbol());
     }
     
     // 进入component定义
     @Override public void enterComponentDef(t3parserParser.ComponentDefContext ctx) { 
     	String name = ctx.IDENTIFIER().getText();
-    	ComponentSymbol componentSymbol = new ComponentSymbol(name, currentScope);
+    	Symbol.Type type = Symbol.Type.tCOMPONENT;
+    	ComponentSymbol componentSymbol = new ComponentSymbol(name, type, currentScope);
     	currentScope.define(componentSymbol);
     	saveScope(ctx, componentSymbol);
     	currentScope = componentSymbol;

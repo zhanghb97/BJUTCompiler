@@ -29,6 +29,10 @@ public class ttcn3 {
             	return Symbol.Type.tBOOL;
             case "charstring":
             	return Symbol.Type.tSTRING;
+            case "port":
+            	return Symbol.Type.tPORT;
+            case "NULL":
+            	return Symbol.Type.tVOID;
             default:
             	return Symbol.Type.tUSER;
         }

@@ -3,14 +3,15 @@ package ttcn3;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
 public class RecordSymbol extends Symbol implements Scope {
 	// record 中的 fields
 	Map<String, Symbol> fields = new LinkedHashMap<String, Symbol>();
 	// 上级作用域
 	Scope enclosingScope;
 	// RecordSymbol 构造函数
-	public RecordSymbol(String name, Scope enclosingScope) {
-        super(name);
+	public RecordSymbol(String name,Type retType, Scope enclosingScope) {
+        super(name, retType);
         this.enclosingScope = enclosingScope;
     }
 	// 在record作用域里查找name

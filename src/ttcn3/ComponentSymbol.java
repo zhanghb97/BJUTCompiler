@@ -9,8 +9,8 @@ public class ComponentSymbol extends Symbol implements Scope {
 	// 上级作用域
 	Scope enclosingScope;
 	// 构造函数
-	public ComponentSymbol(String name, Scope enclosingScope) {
-		super(name);
+	public ComponentSymbol(String name, Type type, Scope enclosingScope) {
+		super(name, type);
 		this.enclosingScope = enclosingScope;
 	}
 	// 在component作用域里查找name
