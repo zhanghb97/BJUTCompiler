@@ -33,6 +33,10 @@ public class ttcn3 {
             	return Symbol.Type.tPORT;
             case "NULL":
             	return Symbol.Type.tVOID;
+            case "testcase":
+            	return Symbol.Type.tTESTCASE;
+            case "altstep":
+            	return Symbol.Type.tALTSTEP;
             default:
             	return Symbol.Type.tUSER;
         }

@@ -106,7 +106,13 @@ public class DefPhase extends t3parserBaseListener {
         		currentScope.define(funcArgsSymbol);
     		}
     		// timer参数
-    		
+    		else if (par.get(i).children.contains(par.get(i).formalTimerPar())) {
+    			String name = par.get(i).formalTimerPar().IDENTIFIER().getText();
+    			String typeTokenType = "timer";
+    			Symbol.Type type = ttcn3.getType(typeTokenType);
+    			AltstepArgsSymbol altstepArgsSymbol = new AltstepArgsSymbol(name, type);
+    			currentScope.define(altstepArgsSymbol);
+    		}
     		
     	}
     }
@@ -160,6 +166,11 @@ public class DefPhase extends t3parserBaseListener {
     	currentScope = portSymbol;
     }
     
+    @Override 
+    public void exitPortDef(t3parserParser.PortDefContext ctx) { 
+    	currentScope = currentScope.getEnclosingScope(); //出栈
+    }
+    
     // 进入port引用
     @Override
     public void enterPortInstance(t3parserParser.PortInstanceContext ctx) { 
@@ -172,7 +183,8 @@ public class DefPhase extends t3parserBaseListener {
     }
     
     // 进入component定义
-    @Override public void enterComponentDef(t3parserParser.ComponentDefContext ctx) { 
+    @Override 
+    public void enterComponentDef(t3parserParser.ComponentDefContext ctx) { 
     	String name = ctx.IDENTIFIER().getText();
     	Symbol.Type type = Symbol.Type.tCOMPONENT;
     	ComponentSymbol componentSymbol = new ComponentSymbol(name, type, currentScope);
@@ -181,11 +193,75 @@ public class DefPhase extends t3parserBaseListener {
     	currentScope = componentSymbol;
     }
     
-    @Override public void exitComponentDef(t3parserParser.ComponentDefContext ctx) { 
+    @Override 
+    public void exitComponentDef(t3parserParser.ComponentDefContext ctx) { 
     	currentScope = currentScope.getEnclosingScope(); //出栈
     }
     
+    // 进入testcase定义
+    @Override 
+    public void enterTestcaseDef(t3parserParser.TestcaseDefContext ctx) { 
+    	// 函数名
+    	String name = ctx.IDENTIFIER().getText();
+    	// 函数返回值
+    	String typeTokenType = "testcase";
+    	
+    	Symbol.Type type = ttcn3.getType(typeTokenType);
+    	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
+    	TestcaseSymbol testcaseSymbol = new TestcaseSymbol(name, type, currentScope);
+    	currentScope.define(testcaseSymbol);
+    	saveScope(ctx, testcaseSymbol);
+    	
+    }
     
+    @Override 
+    public void exitTestcaseDef(t3parserParser.TestcaseDefContext ctx) { 
+    	currentScope = currentScope.getEnclosingScope(); //出栈
+    }
+    
+    // statement 定义
+    @Override 
+    public void enterStatementBlock(t3parserParser.StatementBlockContext ctx) { 
+    	LocalScope local = new LocalScope(currentScope);
+    	saveScope(ctx, local);
+    	currentScope = local;
+    }
+    
+    @Override 
+    public void exitStatementBlock(t3parserParser.StatementBlockContext ctx) { 
+    	currentScope = currentScope.getEnclosingScope(); //出栈
+    }
+    
+    // altstep 定义
+    @Override public void enterAltstepDef(t3parserParser.AltstepDefContext ctx) {
+    	// 函数名
+    	String name = ctx.IDENTIFIER().getText();
+    	// 函数返回值
+    	String typeTokenType = "altstep";
+    	Symbol.Type type = ttcn3.getType(typeTokenType);
+    	//新建一个指向外围作用域的作用域，这样就完成了入栈操作
+    	AltstepSymbol altstepSymbol = new AltstepSymbol(name, type, currentScope);
+    	currentScope.define(altstepSymbol);
+    	saveScope(ctx, altstepSymbol);
+    	currentScope = altstepSymbol;
+    }
+	
+	@Override public void exitAltstepDef(t3parserParser.AltstepDefContext ctx) {
+		currentScope = currentScope.getEnclosingScope(); //出栈
+	}
+    
+    // control scope 定义
+    @Override 
+    public void enterModuleControlPart(t3parserParser.ModuleControlPartContext ctx) { 
+    	ControlScope local = new ControlScope(currentScope);
+    	saveScope(ctx, local);
+    	currentScope = local;
+    }
+    
+    @Override 
+    public void exitModuleControlPart(t3parserParser.ModuleControlPartContext ctx) {
+    	currentScope = currentScope.getEnclosingScope(); //出栈
+    }
     
     @Override 
     public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
