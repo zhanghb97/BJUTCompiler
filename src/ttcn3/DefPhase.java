@@ -263,9 +263,10 @@ public class DefPhase extends t3parserBaseListener {
     	currentScope = currentScope.getEnclosingScope(); //出栈
     }
     
+    // timer 定义
     @Override 
     public void enterTimerInstance(t3parserParser.TimerInstanceContext ctx) { 
-    	System.out.println(ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
+//    	System.out.println(ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
     	defineVar(ctx.TIMER().getText(), ctx.varList().singleVarInstance().get(0).IDENTIFIER().getSymbol());
 	}
     
