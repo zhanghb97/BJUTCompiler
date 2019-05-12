@@ -3,8 +3,6 @@ package ttcn3;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import ttcn3.Symbol.Type;
-
 public class StatementSymbol extends Symbol implements Scope {
 	Map<String, Symbol> elements = new LinkedHashMap<String, Symbol>();
 	Scope enclosingScope;

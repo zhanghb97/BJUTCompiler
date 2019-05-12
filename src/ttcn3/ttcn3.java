@@ -72,7 +72,7 @@ public class ttcn3 {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		DefPhase def = new DefPhase();
 		walker.walk(def, tree);
-//		walker.walk(new RefPhase(def.globals, def.scopes), tree);
+		walker.walk(new RefPhase(def.globals, def.scopes), tree);
 //		walker.walk(new t3parserBaseListener(), tree);
 //		System.out.println("-----------------------------------------");
 //		

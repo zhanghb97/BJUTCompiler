@@ -31,5 +31,5 @@ public class TestcaseSymbol extends Symbol implements Scope {
     public Scope getEnclosingScope() { return enclosingScope; }
     public String getScopeName() { return name; }
 
-    public String toString() { return "function"+super.toString()+":"+runson.values(); }
+    public String toString() { return "testcase"+super.toString()+":"+runson.values(); }
 }

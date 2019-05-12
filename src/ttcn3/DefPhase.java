@@ -1,13 +1,10 @@
 package ttcn3;
 
 import java.util.List;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-
 import ttcn3.t3parserParser.FunctionFormalParContext;
-import ttcn3.t3parserParser.MessageAttribsContext;
 import ttcn3.t3parserParser.SingleConstDefContext;
 import ttcn3.t3parserParser.SingleVarInstanceContext;
 import ttcn3.t3parserParser.StructFieldDefContext;

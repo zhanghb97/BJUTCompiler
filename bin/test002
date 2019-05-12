@@ -1,0 +1,22 @@
+module test001 {
+	const charstring const_str001 := "Capstone Project";
+	const integer const_int002 := 0;
+	
+	function func_001() {
+		var integer var_int001 := 3;
+		var integer var_int002 := 1;
+ 	}
+	
+	function func_002(integer test) return integer {
+		if(test == 1) {
+			return 0;
+		}
+		else {
+			return 1;
+		}
+	}
+	
+	control {
+		execute(myTestcase());
+	}
+}
